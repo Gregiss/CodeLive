@@ -1,0 +1,259 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+:root{
+    --black: #3c3c3c;
+    --black2: #333333;
+    --font: #b3b2b2;
+    --active: #4a4848;
+}
+
+body{
+    background: #1e1e1e;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: var(--font);
+}
+
+#app .taskbar .header{
+    width: 100%;
+    height: 50px;
+    background: var(--black);
+    position: relative;
+    z-index: 100;
+}
+
+a{
+    cursor: pointer;
+}
+
+#app .taskbar .header a{
+    margin-left: 0px;
+    position: relative;
+    top: 13px;
+    padding: 12px;
+    left: 55px;
+}
+
+#app .taskbar .header a:hover{
+    background: var(--active);
+}
+
+#app .menu-left{
+    position: fixed;
+    left: 0px;
+    width: 55px;
+    height: 100%;
+    background: #333;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#app .menu-left a{
+    font-size: 24px;
+    display: block;
+    margin: 18px 17px;
+}
+
+#app .menu-left a:hover{
+    color: #fff;
+}
+
+#app .menu-left .active{
+    color: #fff;
+}
+
+#app .content{
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    background: #252526;
+    left: 55px;
+}
+
+#app .content .title{
+    font-size: 17px;
+    font-style: normal;
+    padding: 15px;
+}
+
+#app .content .open_editor .header{
+    width: 100%;
+    height: 40px;
+    background: #333;
+    text-align: center;
+    overflow: hidden;
+    transition: 1s;
+    cursor: pointer;
+}
+
+#app .content .open_editor .header p{
+    font-size: 14px;
+}
+
+#app .content .open_editor p{
+    padding: 10px;
+    background: transparent;
+    font-size: 14px;
+}
+
+#app .content .files{
+    position: relative;
+    width: 100%;
+    height: 0px;
+}
+
+#app .files_open{
+    width: calc(100% - 255px);
+    height: 100%;
+    background: #252526;
+    position: fixed;
+    float: right;
+    right: 0px;
+}
+
+#app .files_open .header_arq{
+    width: 100%;
+    height: 45px;
+    background: #252526;
+}
+
+#app .content .files p{
+    font-size: 18px;
+    text-align: center;
+}
+
+#app .files{
+    padding: 10px;
+}
+
+#app .files_open .header_arq a{
+    background: #2d2d2d;
+    padding: 10px;
+    position: relative;
+    top: 11px;
+}
+
+#app .files_open .header_arq .active{
+    color: #ffffffbd;
+}
+
+#app .files_open .editor{
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    overflow: auto;
+    cursor: text;
+}
+
+#app .files_open .editor textarea{
+    width: 93%;
+    height: 90%;
+    resize: none;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 22px;
+    color: transparent;
+    padding: 10px;
+    position: relative;
+    z-index: 5;
+    font-size: 22px;
+    top: 0px;
+    overflow: hidden !important;
+    top: 3px;
+    left: -7px;
+}
+
+textarea::selection{
+    color: transparent;
+}
+
+#app .files_open .editor .code{
+    width: 95.1%;
+    height: 98%;
+    background: transparent;
+    position: absolute;
+    z-index: 0;
+    color: #fff;
+    top: 55px;
+    left: -10px;
+    font-size: 22px;
+    overflow: auto;
+}
+
+#app .files_open .editor .code p{
+    font-size: 22px;
+    position: relative;
+    left: 15px;
+    word-wrap: break-word;
+}
+
+#app .welcome{
+    padding: 40px;
+}
+
+#app .welcome h2{
+    position: relative;
+    top: 30px;
+    font-size: 22px;
+}
+
+#app .welcome a{
+    position: relative;
+    top: 40px;
+    font-size: 17px;
+    color: #2196F3;
+}
+
+.popup{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.60);
+    z-index: -1;
+}
+
+.popup .message{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+input::placeholder{
+    color: var(--font);
+}
+
+input{
+    width: 100%;
+    border: none;
+    background: var(--black);
+    outline: none;
+    padding: 10px;
+    color: var(--font);
+    border: 2px solid transparent;
+}
+
+.popup .message button{
+    width: 100%;
+    border: none;
+    outline: none;
+    position: relative;
+    left: 10px;
+    top: 10px;
+    margin-top: 10px;
+    padding: 10px; 
+    cursor: pointer;
+    background: var(--black);
+    color: #fff;
+}
+
+.popup .message .blue{
+    background-color: #2196F3;
+}
+
+.popup .message .red{
+    background-color: #f32148;
+}
