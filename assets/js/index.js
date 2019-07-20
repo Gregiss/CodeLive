@@ -42,20 +42,21 @@
         {name : "PHP", tpye: 2},
     ];
     var filesOpen = [];
-    filesOpen.push({file : "Welcome" , icon : 0, type: 0});
+    filesOpen.push({file : "Welcome" , icon : 0, type: 0, code: ""});
     var OpenEditor = 0;
     var icons = [];
     icons.push({name : "Welcome", icon : "fas fa-mug-hot"});
     icons.push({name : "JavaScript", icon : "fab fa-js-square"});
     icons.push({name : "PHP", icon : "fab fa-php"});
     var files = [];
-    files.push({file : "Welcome" , icon : 0, type: 0});
+    files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
 
     function acessExplorer(){
         $("#app .content").html("<p class='title'>EXPLORER</p><div class='before'></div>");
         $("#app .content .before").before("<div class='open_editor'><div class='header'><p><i class='fas fa-chevron-up' style='position: relative; left: -20px; top: 0px;'></i>OPEN EDITORS</p></div></div> <div class='files'><div class='before'></div></div>");
         filesOpenA();
         acessOpenEditor();
+        changeFile();
     }
 
     function headerArq(){
@@ -65,19 +66,43 @@
                 $(".header_arq .before").before("<a class='active'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
                 welcomeFile();
             } else{
-                $(".header_arq .before").before("<a><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
+                $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
             }
         }
+        changeFile();
+        dectedLanguage();
     }
 
     function openFile(){
         headerArq();
         filesOpenA();
+        $("#app .content .files p").click(function(){
+            var id = $(this).data("id");
+            $(".editor").html("<div class='before'></div>");
+            $(".editor").html("<div class='before'></div> <textarea data-id='"+(filesOpen.length - 1)+"'></textarea><div class='code'></div>");
+            $("textarea").html(files[id].code);
+            $(".code").html("<p>"+files[id].code+"</p>");
+            $("#file" + id).addClass("active");
+            dectedLanguage();
+        });
+    }
+
+    function changeFile(){
+        $(".header_arq a").click(function(){
+            $(".header_arq a").removeClass("active");
+            $(this).addClass("active");
+            var id = $(this).data("id");
+            $(".editor").html("<div class='before'></div>");
+            $(".editor").html("<div class='before'></div> <textarea data-id='"+(filesOpen.length - 1)+"'></textarea><div class='code'></div>");   
+            $(".code").html(files[id].code);
+            $("textarea").html(files[id].code);
+            dectedLanguage();
+        });
     }
 
     function welcomeFile(){
-        $(".files_open .editor").html("<div class='before'></div>");
-        $(".files_open .editor .before").before("<div class='welcome'><h1>CodeLive Editor</h1>  <h2>Start</h2> <a id='newfile'>New File</a></div>");
+        $(".editor").html("<div class='before'></div>");
+        $(".editor .before").before("<div class='welcome'><h1>CodeLive Editor</h1>  <h2>Start</h2> <a id='newfile'>New File</a></div>");
         newFile();
     }
 
@@ -93,13 +118,17 @@
                 $("#app .content .open_editor .header p").html("<i class='fas fa-chevron-up' style='position: relative; left: -20px; top: 0px;'></i>OPEN EDITORS");
             }
         });
+        changeFile();
     }
 
     function newFile(){
         $("#newfile").click(function(){
             popUp("New file", "Create a new file", 0);
+            changeFile();
         });
     }
+
+    var welcome = true;
 
     function popUp(title, desc, type){
         $(".popup").css("z-index", "1000");
@@ -119,11 +148,15 @@
                     $("#namefileinput").css("border", "2px solid #f32148");
                 } else{
                     $("#namefileinput").css("border", "2px solid transparent");
-                    files.push({file: value, icon : 0, type: type});
-                    filesOpen.push({file : value , icon : 0, type: 1});
-                    filesOpen.shift(1);
+                    if(welcome == true){
+                        files.shift(1);
+                        filesOpen.shift(1);
+                    }
+                    welcome = false;
+                    files.push({file: value, icon : 0, type: type, code: ""});
+                    filesOpen.push({file : value , icon : 1, type: 1, code: ""});
                     $(".files_open .editor").html("<div class='before'></div>");
-                    $(".files_open .editor").html("<div class='before'></div> <textarea></textarea><div class='code'></div>");
+                    $(".files_open .editor").html("<div class='before'></div> <textarea data-id='"+filesOpen.length+"'></textarea><div class='code'></div>");
                     dectedLanguage();
                     openFile();
                     $(".popup").css("z-index", "-1");
@@ -131,6 +164,7 @@
             }
             return false;
         });
+        changeFile();
 
     }
 
@@ -147,14 +181,14 @@
             if(returnFile[i].error == 1){
                 $("#app .content .files .before").before("<p class='error'>"+returnFile[i].name+"</p>");
             } else{
-                $("#app .content .files .before").before("<p><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+returnFile[i].file+"</p>");
+                $("#app .content .files .before").before("<p data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+returnFile[i].file+"</p>");
             }
         }
     }
 
     function codeEditor(){
         for(var i = 0; i < filesOpen.length; i++){
-            $("#app .files_open .header_arq .before").before("<a><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+" </a>")
+            $("#app .files_open .header_arq .before").before("<a id='file"+i+"' data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+" </a>")
         }
     }
 

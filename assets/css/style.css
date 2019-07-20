@@ -136,7 +136,7 @@ a{
 }
 
 #app .files_open .header_arq .active{
-    color: #ffffffbd;
+    color: #fff;
 }
 
 #app .files_open .editor{
@@ -178,7 +178,7 @@ textarea::selection{
     z-index: 0;
     color: #fff;
     top: 55px;
-    left: -10px;
+    left: 10px;
     font-size: 22px;
     overflow: auto;
 }
