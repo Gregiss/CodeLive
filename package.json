@@ -1,0 +1,22 @@
+{
+  "name": "codelive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PassaUmDollar/CodeLive.git"
+  },
+  "keywords": [
+    "Ide"
+  ],
+  "author": "kaway404",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PassaUmDollar/CodeLive/issues"
+  },
+  "homepage": "https://github.com/PassaUmDollar/CodeLive#readme"
+}

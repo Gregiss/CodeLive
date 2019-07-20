@@ -188,6 +188,7 @@ textarea::selection{
     position: relative;
     left: 15px;
     word-wrap: break-word;
+    display: inline-block;
 }
 
 #app .welcome{

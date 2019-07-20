@@ -70,7 +70,7 @@
             }
         }
         changeFile();
-        dectedLanguage();
+        
     }
 
     function openFile(){
@@ -78,12 +78,13 @@
         filesOpenA();
         $("#app .content .files p").click(function(){
             var id = $(this).data("id");
-            $(".editor").html("<div class='before'></div>");
-            $(".editor").html("<div class='before'></div> <textarea data-id='"+(filesOpen.length - 1)+"'></textarea><div class='code'></div>");
+            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea><div class=''code''><div class='before'></div></div>");
             $("textarea").html(files[id].code);
             $(".code").html("<p>"+files[id].code+"</p>");
+            $("#app .content .files p").removeClass("active");
+            $(this).addClass("active");
             $("#file" + id).addClass("active");
-            dectedLanguage();
+            
         });
     }
 
@@ -92,11 +93,10 @@
             $(".header_arq a").removeClass("active");
             $(this).addClass("active");
             var id = $(this).data("id");
-            $(".editor").html("<div class='before'></div>");
-            $(".editor").html("<div class='before'></div> <textarea data-id='"+(filesOpen.length - 1)+"'></textarea><div class='code'></div>");   
+            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea><div class='code'><div class='before'></div></div>");   
             $(".code").html(files[id].code);
             $("textarea").html(files[id].code);
-            dectedLanguage();
+            
         });
     }
 
@@ -156,8 +156,7 @@
                     files.push({file: value, icon : 0, type: type, code: ""});
                     filesOpen.push({file : value , icon : 1, type: 1, code: ""});
                     $(".files_open .editor").html("<div class='before'></div>");
-                    $(".files_open .editor").html("<div class='before'></div> <textarea data-id='"+filesOpen.length+"'></textarea><div class='code'></div>");
-                    dectedLanguage();
+                    $(".files_open .editor").html("<div class='before'></div> <textarea id='input' data-id='"+filesOpen.length+"'></textarea><div class='code'><div class='before'></div></div>");
                     openFile();
                     $(".popup").css("z-index", "-1");
                 }
