@@ -1,6 +1,10 @@
     var WhereMe = 0;
     
     function mountHtml(){
+          //Include navigation
+        $.getScript("../assets/js/navigation.js", function() {
+            console.log("Started in ..");
+        });
         //Create a taskbar
         let taskBar = [];
         taskBar.push({name: "New file"});
@@ -54,14 +58,6 @@
     icons.push({name : "Python", icon : "fab fa-python"});
     var files = [];
     files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
-
-    function acessExplorer(){
-        $("#app .content").html("<p class='title'>EXPLORER</p><div class='before'></div>");
-        $("#app .content .before").before("<div class='open_editor'><div class='header'><p><i class='fas fa-chevron-up' style='position: relative; left: -20px; top: 0px;'></i>OPEN EDITORS</p></div></div> <div class='files'><div class='before'></div></div>");
-        filesOpenA();
-        acessOpenEditor();
-        changeFile();
-    }
 
     function headerArq(){
         $(".header_arq").html("<div class='before'></div>");
@@ -211,16 +207,25 @@
             var dataId = $(this).data("id");
             $(".menuLinks").removeClass("active");
             $(this).addClass("active");
-            verifyWhereMe();
             WhereMe = dataId;
+            verifyWhereMe();
         });
     }
 
     function verifyWhereMe(){
             if(WhereMe == 0){
                 acessExplorer();
+            } else if(WhereMe == 1){
+                searchCode();
+            } else if(WhereMe == 2){
+                sourceControl();
+            } else if(WhereMe == 3){
+                debug();
+            } else if(WhereMe == 4){
+                extensions();
             }
     }
+    
 
     function dom(){
         $(".taskbar .header a").click(function(){
