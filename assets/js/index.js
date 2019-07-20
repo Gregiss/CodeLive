@@ -3,7 +3,7 @@
     function mountHtml(){
         //Create a taskbar
         let taskBar = [];
-        taskBar.push({name: "File"});
+        taskBar.push({name: "New file"});
         taskBar.push({name: "Edit"});
         taskBar.push({name: "View"});
 
@@ -40,6 +40,8 @@
         {name : "Welcome", type: 0},
         {name : "JavaScript", tpye: 1},
         {name : "PHP", tpye: 2},
+        {name : "Java", type: 3},
+        {name : "Python", type: 4}
     ];
     var filesOpen = [];
     filesOpen.push({file : "Welcome" , icon : 0, type: 0, code: ""});
@@ -48,6 +50,8 @@
     icons.push({name : "Welcome", icon : "fas fa-mug-hot"});
     icons.push({name : "JavaScript", icon : "fab fa-js-square"});
     icons.push({name : "PHP", icon : "fab fa-php"});
+    icons.push({name : "JAVA", icon : "fab fa-java"});
+    icons.push({name : "Python", icon : "fab fa-python"});
     var files = [];
     files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
 
@@ -63,7 +67,7 @@
         $(".header_arq").html("<div class='before'></div>");
         for(var i = 0; i < filesOpen.length; i++){
             if(filesOpen[i].type == 0){
-                $(".header_arq .before").before("<a class='active'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
+                $(".header_arq .before").before("<a class='active'><i data-id='"+i+"' class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
                 welcomeFile();
             } else{
                 $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
@@ -152,9 +156,20 @@
                         files.shift(1);
                         filesOpen.shift(1);
                     }
+                    var type = 0;
                     welcome = false;
-                    files.push({file: value, icon : 0, type: type, code: ""});
-                    filesOpen.push({file : value , icon : 1, type: 1, code: ""});
+                    var str = value;
+                    if(str.match(/.js/)){
+                        type = 1;
+                    } else if(str.match(/.php/)){
+                        type = 2;
+                    } else if(str.match(/.java/)){
+                        type = 3;
+                    } else if(str.match(/.py/)){
+                        type = 4;
+                    }
+                    files.push({file: value, icon : type, type: type, code: ""});
+                    filesOpen.push({file : value , icon : type, type: type, code: ""});
                     $(".files_open .editor").html("<div class='before'></div>");
                     $(".files_open .editor").html("<div class='before'></div> <textarea id='input' data-id='"+filesOpen.length+"'></textarea><div class='code'><div class='before'></div></div>");
                     openFile();
@@ -207,7 +222,18 @@
             }
     }
 
+    function dom(){
+        $(".taskbar .header a").click(function(){
+            var text = $(this).html();
+            if(text == "New file"){
+                popUp("New file", "Create a new file", 0);
+                changeFile();
+            }
+        })
+    }
+
     $(document).ready(function(){
         mountHtml();
         acessMenuLink();
+        dom();
     });
