@@ -89,6 +89,7 @@ function acessExplorer(){
     filesOpenA();
     acessOpenEditor();
     changeFile();
+    openFile();
 }
 
 //Acess explorer
