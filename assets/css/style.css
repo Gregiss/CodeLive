@@ -238,7 +238,7 @@ input::placeholder{
 input{
     width: 100%;
     border: none;
-    background: var(--black);
+    background: #011e3a;
     outline: none;
     padding: 10px;
     color: var(--font);
