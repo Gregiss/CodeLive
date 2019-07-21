@@ -10,6 +10,7 @@
         taskBar.push({name: "New file"});
         taskBar.push({name: "Edit"});
         taskBar.push({name: "View"});
+        taskBar.push({name: "Credits"});
 
         $("#app").html("<div class='taskbar'><div class='before'></div></div> <div class='before'></div>");
         $("#app .taskbar .before").before("<div class='header'><div class='before'></div></div> <div class='menu-left'><div class='before'></div></div> <div class='content'><div class='before'></div></div> <div class='files_open'><div class='header_arq'><div class='before'></div></div> <div class='editor'></div> </div>");
@@ -149,11 +150,15 @@
         $(".popup .before").before("<div class='message'><h1>"+title+"</h1> <p>"+desc+"</p> <div class='before'></div></div>");
         if(type == 0){
             $(".popup .message .before").before("<form> <br><input id='namefileinput' type='text' placeholder='Name file'/><br> <button class='blue'>Create</button></form> <button class='red'>Cancel</button>");
+        } else if(type == 1){
+            $(".popup .message .before").before("<button class='red'>Close</button>");
         }
 
         $("button").click(function(){
             var veri = $(this).html();
             if(veri == "Cancel"){
+                $(".popup").css("z-index", "-1");
+            } else if(veri == "Close"){
                 $(".popup").css("z-index", "-1");
             } else if(veri == "Create"){
                 var value = $("#namefileinput").val();
@@ -248,6 +253,8 @@
             if(text == "New file"){
                 popUp("New file", "Create a new file", 0);
                 changeFile();
+            } else if(text == "Credits"){
+                popUp("Credits", "Created by kaway404 (PassaUmDollar) <br> <a><i class='fab fa-github'></i>   PassaUmDollar<br> <i class='fab fa-github'></i>     kaway404", 1);
             }
         })
     }
