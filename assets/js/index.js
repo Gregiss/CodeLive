@@ -62,6 +62,7 @@
     icons.push({name: "HTML", icon: "fab fa-html5" });
     var files = [];
     files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
+    var editando;
 
     function headerArq(){
         $(".header_arq").html("<div class='before'></div>");
@@ -87,10 +88,12 @@
             $("#file" + id).addClass("active");
             editorCoded();
             changeFile();
+            editando = $(this).data("id");
             
             $(".header_arq").html("<div class='before'></div>");
         for(var i = 0; i < filesOpen.length; i++){
             $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
+            AutoSave();
         }
            
         });
@@ -105,6 +108,8 @@
             $(".code").html(files[id].code);
             $("textarea").html(files[id].code);
             editorCoded();
+            editando = $(this).data("id");
+            AutoSave();
         });
     }
 

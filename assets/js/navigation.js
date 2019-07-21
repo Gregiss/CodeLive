@@ -81,6 +81,7 @@ function editorCoded(){
       window.addEventListener('load', render)
 }
 
+
 //Acess explorer
 function acessExplorer(){
     $("#app .content").html("<p class='title'>EXPLORER</p><div class='before'></div>");
