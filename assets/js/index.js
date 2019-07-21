@@ -69,22 +69,26 @@
                 $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
             }
         }
-        changeFile();
-        
     }
 
     function openFile(){
-        headerArq();
         filesOpenA();
         $("#app .content .files p").click(function(){
             var id = $(this).data("id");
-            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea><div class=''code''><div class='before'></div></div>");
+            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea> <textarea id='output'></textarea>");
             $("textarea").html(files[id].code);
             $(".code").html("<p>"+files[id].code+"</p>");
             $("#app .content .files p").removeClass("active");
             $(this).addClass("active");
             $("#file" + id).addClass("active");
+            editorCoded();
+            changeFile();
             
+            $(".header_arq").html("<div class='before'></div>");
+        for(var i = 0; i < filesOpen.length; i++){
+            $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
+        }
+           
         });
     }
 
@@ -93,10 +97,10 @@
             $(".header_arq a").removeClass("active");
             $(this).addClass("active");
             var id = $(this).data("id");
-            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea><div class='code'><div class='before'></div></div>");   
+            $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea> <textarea id='output'></textarea><div class='code'><div class='before'></div></div>");   
             $(".code").html(files[id].code);
             $("textarea").html(files[id].code);
-            
+            editorCoded();
         });
     }
 
@@ -166,8 +170,6 @@
                     }
                     files.push({file: value, icon : type, type: type, code: ""});
                     filesOpen.push({file : value , icon : type, type: type, code: ""});
-                    $(".files_open .editor").html("<div class='before'></div>");
-                    $(".files_open .editor").html("<div class='before'></div> <textarea id='input' data-id='"+filesOpen.length+"'></textarea><div class='code'><div class='before'></div></div>");
                     openFile();
                     $(".popup").css("z-index", "-1");
                 }
