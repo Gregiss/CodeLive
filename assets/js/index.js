@@ -45,7 +45,8 @@
         {name : "JavaScript", tpye: 1},
         {name : "PHP", tpye: 2},
         {name : "Java", type: 3},
-        {name : "Python", type: 4}
+        {name : "Python", type: 4},
+        {name: "CSS", type: 5}
     ];
     var filesOpen = [];
     filesOpen.push({file : "Welcome" , icon : 0, type: 0, code: ""});
@@ -56,6 +57,7 @@
     icons.push({name : "PHP", icon : "fab fa-php"});
     icons.push({name : "JAVA", icon : "fab fa-java"});
     icons.push({name : "Python", icon : "fab fa-python"});
+    icons.push({name: "CSS", icon: "fab fa-css3-alt" })
     var files = [];
     files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
 
@@ -167,6 +169,8 @@
                         type = 3;
                     } else if(str.match(/.py/)){
                         type = 4;
+                    } else if(str.match(/.css/)){
+                        type = 5;
                     }
                     files.push({file: value, icon : type, type: type, code: ""});
                     filesOpen.push({file : value , icon : type, type: type, code: ""});
