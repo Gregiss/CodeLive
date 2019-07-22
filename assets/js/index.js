@@ -48,7 +48,8 @@
         {name : "Java", type: 3},
         {name : "Python", type: 4},
         {name: "CSS", type: 5},
-        {name: "HTML", type: 6}
+        {name: "HTML", type: 6},
+        {name: "Nothing", type: 7}
     ];
     var filesOpen = [];
     filesOpen.push({file : "Welcome" , icon : 0, type: 0, code: ""});
@@ -61,15 +62,18 @@
     icons.push({name : "Python", icon : "fab fa-python"});
     icons.push({name: "CSS", icon: "fab fa-css3-alt" });
     icons.push({name: "HTML", icon: "fab fa-html5" });
+    icons.push({name: "Nothing", icon: "fas fa-mug-hot" });
     var files = [];
     files.push({file : "Welcome" , icon : 0, type: 0, code: ""});
-    var editando;
+    var abertoAux = 0;
+    var aberto = [];
+    aberto = [{id: 0, file : "Welcome" , icon : 0, type: 0, code: ""}];
 
     function headerArq(){
         $(".header_arq").html("<div class='before'></div>");
         for(var i = 0; i < filesOpen.length; i++){
             if(filesOpen[i].type == 0){
-                $(".header_arq .before").before("<a class='active'><i data-id='"+i+"' class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
+                $(".header_arq .before").before("<a class='active' id='code"+i+"' data-id='"+i+"'><i data-id='"+i+"' class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
                 welcomeFile();
             } else{
                 $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
@@ -81,6 +85,7 @@
         filesOpenA();
         $("#app .content .files p").click(function(){
             var id = $(this).data("id");
+
             $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea> <textarea id='output'></textarea>");
             $("textarea").html(files[id].code);
             $(".code").html("<p>"+files[id].code+"</p>");
@@ -89,14 +94,19 @@
             $("#file" + id).addClass("active");
             editorCoded();
             changeFile();
-            editando = $(this).data("id");
-            
-            $(".header_arq").html("<div class='before'></div>");
-        for(var i = 0; i < filesOpen.length; i++){
-            $(".header_arq .before").before("<a data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+filesOpen[i].file+"</a>");
-            AutoSave();
-        }
-           
+            aberto = [{id: id, file : filesOpen[id].file , icon : filesOpen[id].icon, type: filesOpen[id].type, code: filesOpen[id].code}];
+            if(filesOpen[id].type == 0){
+                welcomeFile();
+            }
+            else{
+                editando = [{id: id, file : filesOpen[id].file , icon : filesOpen[id].icon, type: filesOpen[id].type, code: filesOpen[id].code}];
+                $(".header_arq").html("<div class='before'></div>");
+                $(".header_arq .before").before("<a data-id='"+id+"' id='code"+id+"'><i class='"+icons[filesOpen[id].icon].icon+"'></i> "+filesOpen[id].file+"</a>");
+                $(".header_arq a").removeClass("active");
+                $("#code" + id).addClass("active");
+                AutoSave();
+                return false;
+            }
         });
     }
 
@@ -105,12 +115,17 @@
             $(".header_arq a").removeClass("active");
             $(this).addClass("active");
             var id = $(this).data("id");
+            if(filesOpen[id].type == 0){
+                welcomeFile();
+            } else{
+            aberto = [{id: id, file : filesOpen[id].file , icon : filesOpen[id].icon, type: filesOpen[id].type, code: filesOpen[id].code}];
             $(".editor").html("<div class='before'></div> <textarea id='input' data-id='"+(files.length)+"'></textarea> <textarea id='output'></textarea><div class='code'><div class='before'></div></div>");   
             $(".code").html(files[id].code);
             $("textarea").html(files[id].code);
             editorCoded();
-            editando = $(this).data("id");
+            editando = [{id: id, file : filesOpen[id].file , icon : filesOpen[id].icon, type: filesOpen[id].type, code: filesOpen[id].code}];
             AutoSave();
+            }
         });
     }
 
@@ -166,10 +181,6 @@
                     $("#namefileinput").css("border", "2px solid #f32148");
                 } else{
                     $("#namefileinput").css("border", "2px solid transparent");
-                    if(welcome == true){
-                        files.shift(1);
-                        filesOpen.shift(1);
-                    }
                     var type = 0;
                     welcome = false;
                     var str = value;
@@ -185,6 +196,8 @@
                         type = 5;
                     } else if(str.match(/.html/)){
                         type = 6;
+                    } else{
+                        type = 7;
                     }
                     files.push({file: value, icon : type, type: type, code: ""});
                     filesOpen.push({file : value , icon : type, type: type, code: ""});
@@ -297,20 +310,20 @@
               }
             )
             return parse(rules.join(''))
-          }
-          
-          function render(event) {
-            localStorage[pluginName] = input.getSession().getValue()
-          
-            output.getSession().setValue(
-              stringify(
-                mediaExpander(localStorage[pluginName])
-              )
-            )
-          
-            return beautify.beautify(output.session)
-          }
-          
+          }       
+
+        // trigger extension
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("input");
+        editor.session.setMode("ace/mode/html");
+        editor.setTheme("ace/theme/tomorrow");
+        // enable autocompletion and snippets
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: false
+        });
+
           // Demo setup below
           const pluginName = 'mediaexpander'
           const input = ace.edit('input')
@@ -318,8 +331,20 @@
           const beautify = ace.require('ace/ext/beautify')
           
           input.setTheme('ace/theme/cobalt')
-          input.session.setMode('ace/mode/css')
-          input.setFontSize(18)
+          if(aberto[0].type == 1){
+            input.session.setMode('ace/mode/javascript')
+          } else if(aberto[0].type == 2){
+            input.session.setMode('ace/mode/php')
+          } else if(aberto[0].type == 3){
+            input.session.setMode('ace/mode/java')
+          } else if(aberto[0].type == 4){
+            input.session.setMode('ace/mode/python')
+          } else if(aberto[0].type == 5){
+            input.session.setMode('ace/mode/css')
+          } else if(aberto[0].type == 6){
+            input.session.setMode('ace/mode/html')
+          }
+          input.setFontSize(28)
           input.session.setTabSize(2)
           input.container.style.lineHeight = 1.4
           input.renderer.setScrollMargin(10, 10)
@@ -336,7 +361,20 @@
           )
           
           output.setTheme('ace/theme/cobalt')
-          output.session.setMode('ace/mode/css')
+          
+          if(aberto[0].type == 1){
+            output.session.setMode('ace/mode/javascript')
+          } else if(aberto[0].type == 2){
+            output.session.setMode('ace/mode/php')
+          } else if(aberto[0].type == 3){
+            output.session.setMode('ace/mode/java')
+          } else if(aberto[0].type == 4){
+            output.session.setMode('ace/mode/python')
+          } else if(aberto[0].type == 5){
+            output.session.setMode('ace/mode/css')
+          } else if(aberto[0].type == 6){
+            output.session.setMode('ace/mode/html')
+          }
           output.setFontSize(18)
           output.session.setTabSize(2)
           output.container.style.lineHeight = 1.4
@@ -349,6 +387,17 @@
     }
     
     
+    function AutoSave(){
+        $("textarea").keyup(function(){
+            var text = $(this).val();
+            var keycode = (event.keyCode ? event.keyCode : event.which);
+            if(keycode == '13'){
+                return false;
+            }
+            console.log(text);
+        });
+        }
+
     //Acess explorer
     function acessExplorer(){
         $("#app .content").html("<p class='title'>EXPLORER</p><div class='before'></div>");
@@ -378,3 +427,4 @@
     function extensions(){
         $("#app .content").html("<p class='title'>Extensions</p><div class='before'></div>");
     }
+

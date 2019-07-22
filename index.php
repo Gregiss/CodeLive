@@ -14,14 +14,13 @@
 <body>
     <div class='popup'></div>
     <div id="app"></div>
-
 </body>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
     <script src="assets/js/ace.js"></script>
-    <script src="assets/js/ext-beautify.js"></script>
-    <script src="assets/js/languages.js"></script>
-    <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="assets/js/index.js"></script>
-
+    <script src="ace-builds/src-noconflict/ext-language_tools.js"></script>
+    <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace-builds/src-noconflict/show_own_source.js"></script>
+    <script src="assets/js/index.js"></script> 
     <style>
     .ace-tm .ace_gutter {
     background-color: #2b2b2d !important;
