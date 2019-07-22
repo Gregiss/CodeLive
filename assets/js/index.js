@@ -1,5 +1,11 @@
     var WhereMe = 0;
     
+    $(document).ready(function(){
+        $(document).bind("contextmenu",function(e){
+        return false;
+        });
+        });
+
     function mountHtml(){
           //Include navigation
         $.getScript("../assets/js/navigation.js", function() {
@@ -225,8 +231,22 @@
                 $("#app .content .files .before").before("<p class='error'>"+returnFile[i].name+"</p>");
             } else{
                 $("#app .content .files .before").before("<p data-id='"+i+"'><i class='"+icons[filesOpen[i].icon].icon+"'></i> "+returnFile[i].file+"</p>");
+                $("#app .content .files .before").before("<div data-id='"+i+"' id='menu"+i+"' class='menu'> <a>Remove</a> <a>Rename</a>  </div>");
             }
         }
+        $(".files p").mousedown(function(e){ 
+            if( e.button == 2 ) {
+            var menuid = $(this).data("id"); 
+            $(".menu").hide();
+             $("#menu"+ menuid).show();
+            } 
+          }); 
+        $(".menu").hide();
+
+        $(".menu").mouseout(function(){
+            $(".menu").hide();
+        })
+        
     }
 
     function codeEditor(){
@@ -427,4 +447,3 @@
     function extensions(){
         $("#app .content").html("<p class='title'>Extensions</p><div class='before'></div>");
     }
-
